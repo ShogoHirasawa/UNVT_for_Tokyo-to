@@ -1,0 +1,14 @@
+{
+"name": "buildings_VT",
+"description": "buildings_VT",
+"version": "2",
+"minzoom": "12",
+"maxzoom": "17",
+"center": "139.621124,35.607068,17",
+"bounds": "139.598432,35.594461,139.655068,35.624796",
+"type": "overlay",
+"format": "pbf",
+"generator": "tippecanoe v1.36.0",
+"generator_options": "tippecanoe --no-tile-compression -z17 -Z12 -e buildings_VT -y name -l buildings_VT -ai buildings.geojson",
+"json": "{\"vector_layers\": [ { \"id\": \"buildings_VT\", \"description\": \"\", \"minzoom\": 12, \"maxzoom\": 17, \"fields\": {\"name\": \"String\"} } ],\"tilestats\": {\"layerCount\": 1,\"layers\": [{\"layer\": \"buildings_VT\",\"count\": 18564,\"geometry\": \"Polygon\",\"attributeCount\": 1,\"attributes\": [{\"attribute\": \"name\",\"count\": 135,\"type\": \"string\",\"values\": [\"Daiwa House\",\"FUTAKO TAMAGAWA POST OFFICE\",\"INOUE BLDGⅡ\",\"KMビル\",\"Koyama Driving School\",\"Mizonokuchi ex\",\"NECプラットフォームズ高津事業所\",\"NTT玉川\",\"OKKA634\",\"Phoenix Court Tamagawa\",\"Qiz MIZONOKUCHI\",\"Rakuten Crimson House\",\"THE PRIME\",\"TONAMI\",\"Takashimaya garden place\",\"rise\",\"rise shopping center: terrace market\",\"rise: BIRDS MALL\",\"rise: Dogwood Plaza\",\"rise: PLAZA MALL\",\"rise: station market\",\"rise: terracemarket\",\"rise: town front\",\"お休み処　雪月花\",\"にりんかん\",\"みぞのくち市税事務所\",\"やっじゃがな\",\"ゆうぽうと世田谷レクセンター\",\"りんごの木保育園\",\"アマゾンジャパン合同会社川崎FC\",\"イトーヨーカドー\",\"ウッディモアル\",\"エストレリータⅢ\",\"オフィス イシカワ\",\"キグチビル\",\"クノール食品川崎工場\",\"クリオ溝口壹番館\",\"クレセント等々力\",\"クレッセント尾山台3\",\"クレヴィア 二子玉川\",\"クレール溝の口\",\"グリーンハイツ石塚\",\"コーポ三田\",\"サイバーアイ・エンタテインメント株式会社\",\"サークルK 世田谷玉堤店\",\"シマザキビル\",\"シャングリラ\",\"ジェームズ\",\"ステージ\",\"セブン-イレブン\",\"セボンヴェルディア二子玉川\",\"セントラルフィットネスクラブ\",\"ソルジェンテ 溝ノ口\",\"ツインシテーS\",\"ノクティ1\",\"ノクティ2 マルイファミリー溝口\",\"ハイネス溝の口\",\"ハローワーク川崎北　溝ノ口庁舎\",\"ハートフル川崎病院\",\"バーミヤン\",\"パストラル梶が谷\",\"パークコート\",\"パークハウス上野毛\",\"パークハウス溝の口ガーデンコート\",\"ビジターセンター\",\"フィエスタ・デル・アミーゴ\",\"フコク生命\",\"フジモトビル\",\"プール管理棟\",\"ベルメゾン上野毛\",\"ホテル 大和\",\"ホワイトレジデンス\",\"マルエツ\",\"マロリーワイス\",\"ヤマウラビル\",\"ヤマト運輸\",\"ユーランド溝ノ口ビル\",\"ライズ・タワー&レジデンス\",\"ライムライト\",\"ラウンドワン高津店\",\"リバーストーン第3ビル\",\"ロイヤルプリンスギャラリーフィオーレ\",\"三井住友銀行溝ノ口ビル\",\"上野毛ハイム\",\"上野毛ハイム2号棟\",\"上野毛ハイム3号棟\",\"世田谷区立玉川福祉作業所\",\"丸広ビル\",\"京セラ\",\"今井\",\"介護老人保健施設 ホスピア玉川\",\"佐川急便\",\"円福寺\",\"分水弁\",\"加藤石材\",\"取水ポンプ所\",\"大石石材\",\"尾山台地区会館\",\"山田ビル\",\"岡本民家園\"]}]}]}}"
+}

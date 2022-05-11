@@ -1,0 +1,14 @@
+{
+"name": "output_dir",
+"description": "output_dir",
+"version": "2",
+"minzoom": "12",
+"maxzoom": "20",
+"center": "139.479160,34.075839,20",
+"bounds": "138.990286,26.641551,142.207774,35.842013",
+"type": "overlay",
+"format": "pbf",
+"generator": "tippecanoe v1.36.0",
+"generator_options": "tippecanoe --no-tile-compression -z20 -Z12 -e output_dir -y code -l setagaya -ai map.geojson",
+"json": "{\"vector_layers\": [ { \"id\": \"setagaya\", \"description\": \"\", \"minzoom\": 12, \"maxzoom\": 20, \"fields\": {} } ],\"tilestats\": {\"layerCount\": 1,\"layers\": [{\"layer\": \"setagaya\",\"count\": 2636,\"geometry\": \"Point\",\"attributeCount\": 0,\"attributes\": []}]}}"
+}
