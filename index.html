@@ -27,69 +27,7 @@
     <script>
       var map = new maplibregl.Map({
         container: "map",
-        style: {
-          version: 8,
-          sources: {
-            "raster-tiles": {
-              type: "raster",
-              tiles: ["http://a.tile.openstreetmap.org/{z}/{x}/{y}.png"],
-              tileSize: 256,
-              attribution:
-                'Map tiles by <a target="_top" rel="noopener" href="http://stamen.com">Stamen Design</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>',
-            },
-            road: {
-              type: "vector",
-              tiles: [
-                "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/road_VT/{z}/{x}/{y}.pbf",
-              ],
-              tileSize: 512,
-            },
-            buildings: {
-              type: "vector",
-              tiles: [
-                "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/buildings_VT/{z}/{x}/{y}.pbf",
-              ],
-              tileSize: 512,
-            },
-            dronebird: {
-              type: "raster",
-              tiles: [
-                "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/futakotamagawac_ RT/{z}/{x}/{y}.png",
-              ],
-              tileSize: 256,
-              attribution:
-                'Map tiles by <a target="_top" rel="noopener" href="http://furuhashilab.com/">Furuhashi Lab.</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" rel="noopener" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" rel="noopener" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>',
-            },
-          },
-          layers: [
-            {
-              id: "road",
-              type: "line",
-              "source-layer": "road_VT",
-              source: "road",
-              minzoom: 12,
-              maxzoom: 17,
-            },
-            {
-              id: "buildings",
-              type: "fill",
-              "source-layer": "buildings_VT",
-              source: "buildings",
-              minzoom: 12,
-              maxzoom: 17,
-              paint: {
-                "fill-color": ["rgb", 240, 128, 128],
-              },
-            },
-            {
-              id: "dronebird",
-              type: "raster",
-              source: "dronebird",
-              minzoom: 10,
-              maxzoom: 17,
-            },
-          ],
-        },
+        style: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/",
         center: [139.63095, 35.61473], // starting position
         zoom: 14, // starting zoom
       });
@@ -102,20 +40,20 @@
             map.addSource("evacuationes", {
               type: "vector",
               tiles: [
-                "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/setagaya_evacuation_VT/{z}/{x}/{y}.pbf",
+                "https://furuhashilab.github.io/UNVT_for_Tokyo-to/tokyo-to_evacuation//{z}/{x}/{y}.pbf",
               ],
             });
             map.addLayer({
               id: "evacuation",
               type: "symbol",
               source: "evacuationes",
-              "source-layer": "evacuation_VT",
+              "source-layer": "okyo-to_evacuation",
               layout: {
                 "icon-image": "evacuation",
                 "icon-size": 0.2,
               },
-              minzoom: 0,
-              maxzoom: 22,
+              minzoom: 10,
+              maxzoom: 20,
             });
           }
         );
