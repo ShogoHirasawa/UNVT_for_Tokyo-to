@@ -27,10 +27,13 @@
     <script>
       var map = new maplibregl.Map({
         container: "map",
-        style: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/",
+        style: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/style.json",
         center: [139.63095, 35.61473], // starting position
         zoom: 14, // starting zoom
       });
+
+
+      
       map.on("load", function () {
         map.loadImage(
           "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/image/house.png",
