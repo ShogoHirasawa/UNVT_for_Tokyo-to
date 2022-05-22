@@ -25,42 +25,60 @@
   <body>
     <div id="map"></div>
     <script>
-      var map = new maplibregl.Map({
-        container: "map",
-        style: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/style.json",
-        center: [139.63095, 35.61473], // starting position
-        zoom: 14, // starting zoom
-      });
-
-
       
-      map.on("load", function () {
-        map.loadImage(
-          "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/image/house.png",
-          function (error, image) {
-            if (error) throw error;
-            map.addImage("evacuation", image);
-            map.addSource("evacuationes", {
-              type: "vector",
-              tiles: [
-                "https://furuhashilab.github.io/UNVT_for_Tokyo-to/tokyo-to_evacuation//{z}/{x}/{y}.pbf",
-              ],
-            });
-            map.addLayer({
-              id: "evacuation",
-              type: "symbol",
-              source: "evacuationes",
-              "source-layer": "okyo-to_evacuation",
-              layout: {
-                "icon-image": "evacuation",
-                "icon-size": 0.2,
-              },
-              minzoom: 10,
-              maxzoom: 20,
-            });
-          }
+      (async () => {
+        let map;
+        const res = await fetch("https://furuhashilab.github.io/UNVT_for_Tokyo-to/tiles.json");
+        const tilejson = await res.json();
+        const bounds = tilejson.bounds;
+        const center = tilejson.center
+          ? tilejson.center
+          : [(bounds[0] + bounds[2]) / 2, (bounds[1] + bounds[3]) / 2];
+        const zoom = (tilejson.minzoom + tilejson.maxzoom) / 2;
+        console.log(center, zoom);
+        map = new maplibregl.Map({
+          container: "map",
+          style: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/style.json",
+          center: center,
+          zoom: 5,
+        });
+        map.addControl(new maplibregl.NavigationControl());
+        map.addControl(
+          new maplibregl.AttributionControl({
+            compact: false,
+            customAttribution:
+              "Style © <a href='http://openmaptiles.org/'>OpenMapTiles</a> | " +
+              "Data © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a>",
+          })
         );
-      });
+      })();
+      //    map.on("load", function () {
+      //   map.loadImage(
+      //     "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/image/house.png",
+      //     function (error, image) {
+      //       if (error) throw error;
+      //       map.addImage("evacuation", image);
+      //       map.addSource("evacuationes", {
+      //         type: "vector",
+      //         tiles: [
+      //           "https://furuhashilab.github.io/UNVT_for_Tokyo-to/tokyo-to_evacuation/{z}/{x}/{y}.pbf",
+      //         ],
+      //       });
+      //       map.addLayer({
+      //         id: "evacuation",
+      //         type: "symbol",
+      //         source: "evacuationes",
+      //         "source-layer": "okyo-to_evacuation",
+      //         layout: {
+      //           "icon-image": "evacuation",
+      //           "icon-size": 0.2,
+      //         },
+      //         minzoom: 10,
+      //         maxzoom: 20,
+      //       });
+      //     }
+      //   );
+      // });
     </script>
   </body>
 </html>
