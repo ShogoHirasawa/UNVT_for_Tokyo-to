@@ -168,6 +168,6 @@
     }
   ],
   "tiles": [
-    "https://furuhashilab.github.io/UNVT_for_Tokyo-to/kanto-latest.osm/{z}/{x}/{y}.pbf"
+    "https://furuhashilab.github.io/UNVT_for_Tokyo-to/xyz/{z}/{x}/{y}.pbf"
   ]
 }
