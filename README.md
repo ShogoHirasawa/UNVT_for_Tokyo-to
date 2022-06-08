@@ -7,3 +7,7 @@ UNVTPortable の東京都用プリインストールデータ作成リポジト�
 ## ゴール
 - ベースマップをアップデート。[完成イメージ](https://yuiseki.github.io/vector-tile-builder/)
 - 完成したイメージファイルをDockerで共有できるようにする
+
+## 進捗
+- [四国のベクトルタイル地図](https://github.com/ShogoHirasawa/vector-tile-builder2)は完成した。
+- つぎは、避難場所のプロット
