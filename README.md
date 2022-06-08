@@ -9,5 +9,5 @@ UNVTPortable の東京都用プリインストールデータ作成リポジト�
 - 完成したイメージファイルをDockerで共有できるようにする
 
 ## 進捗
-- [四国のベクトルタイル地図]()は完成した。
+- [四国のベクトルタイル地図](https://shogohirasawa.github.io/vector-tile-builder/)は完成した。
 - つぎは、避難場所のプロット
