@@ -1,6 +1,6 @@
 {
-  "id": "shikoku",
-  "basename": "shikoku.mbtiles",
+  "id": "kanto",
+  "basename": "kanto.mbtiles",
   "tilejson": "2.0.0",
   "name": "Tilemaker to OpenMapTiles schema",
   "type": "baselayer",
@@ -9,14 +9,24 @@
   "format": "pbf",
   "minzoom": 0,
   "maxzoom": 14,
-  "bounds": [131.769819, 32.229585, 135.17938, 34.65151],
-  "center": [133.4746, 33.440547, 10],
+  "bounds": [
+    134.045154,
+    18.625054,
+    155.605818,
+    37.15988
+  ],
+  "center": [
+    144.825486,
+    27.892467,
+    7
+  ],
   "vector_layers": [
     {
       "id": "place",
       "fields": {
         "class": "String",
-        "name:latin": "String"
+        "name:latin": "String",
+        "rank": "Number"
       },
       "minzoom": 0,
       "maxzoom": 14
@@ -25,6 +35,7 @@
       "id": "boundary",
       "fields": {
         "admin_level": "Number",
+        "class": "String",
         "disputed": "Number"
       },
       "minzoom": 0,
@@ -87,8 +98,12 @@
     {
       "id": "building",
       "fields": {
+        "class": "String",
+        "name:latin": "String",
+        "rank": "Number",
         "render_height": "Number",
-        "render_min_height": "Number"
+        "render_min_height": "Number",
+        "subclass": "String"
       },
       "minzoom": 13,
       "maxzoom": 14
@@ -173,6 +188,6 @@
     }
   ],
   "tiles": [
-    "https://shogohirasawa.github.io/vector-tile-builder/zxy/{z}/{x}/{y}.pbf"
+    "https://furuhashilab.github.io/UNVT_for_Tokyo-to/zxy/{z}/{x}/{y}.pbf"
   ]
 }
