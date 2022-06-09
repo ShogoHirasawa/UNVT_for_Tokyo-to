@@ -1,6 +1,6 @@
 {
-  "id": "region",
-  "basename": "region.mbtiles",
+  "id": "shikoku",
+  "basename": "shikoku.mbtiles",
   "tilejson": "2.0.0",
   "name": "Tilemaker to OpenMapTiles schema",
   "type": "baselayer",
@@ -9,16 +9,14 @@
   "format": "pbf",
   "minzoom": 0,
   "maxzoom": 14,
-  "bounds": [1.412368, 42.4276, 1.787481, 42.65717],
-  "center": [139.77168, 35.69731, 8],
+  "bounds": [131.769819, 32.229585, 135.17938, 34.65151],
+  "center": [133.4746, 33.440547, 10],
   "vector_layers": [
     {
       "id": "place",
       "fields": {
         "class": "String",
-        "iso_a2": "String",
-        "name:latin": "String",
-        "rank": "Number"
+        "name:latin": "String"
       },
       "minzoom": 0,
       "maxzoom": 14
@@ -124,7 +122,14 @@
     },
     {
       "id": "aerodrome_label",
-      "fields": {},
+      "fields": {
+        "class": "String",
+        "ele": "Number",
+        "ele_ft": "Number",
+        "iata": "String",
+        "icao": "String",
+        "name:latin": "String"
+      },
       "minzoom": 10,
       "maxzoom": 14
     },
@@ -168,6 +173,6 @@
     }
   ],
   "tiles": [
-    "https://furuhashilab.github.io/UNVT_for_Tokyo-to/xyz/{z}/{x}/{y}.pbf"
+    "https://shogohirasawa.github.io/vector-tile-builder/zxy/{z}/{x}/{y}.pbf"
   ]
 }
