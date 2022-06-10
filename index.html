@@ -41,6 +41,34 @@
           center: center,
           zoom: 10,
         });
+
+        map.on("load", function () {
+          map.loadImage(
+            "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/image/house.png",
+            function (error, image) {
+              if (error) throw error;
+              map.addImage("evacuation", image);
+              map.addSource("evacuationes", {
+                type: "vector",
+                tiles: [
+                  "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/setagaya_evacuation_VT/{z}/{x}/{y}.pbf",
+                ],
+              });
+              map.addLayer({
+                id: "evacuation",
+                type: "symbol",
+                source: "evacuationes",
+                "source-layer": "evacuation_VT",
+                layout: {
+                  "icon-image": "evacuation",
+                  "icon-size": 0.2,
+                },
+                minzoom: 0,
+                maxzoom: 22,
+              });
+            }
+          );
+        });
         map.addControl(new maplibregl.NavigationControl());
         map.addControl(
           new maplibregl.AttributionControl({
