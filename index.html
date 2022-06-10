@@ -51,17 +51,17 @@
               map.addSource("evacuationes", {
                 type: "vector",
                 tiles: [
-                  "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/setagaya_evacuation_VT/{z}/{x}/{y}.pbf",
+                  "https://furuhashilab.github.io/UNVT_for_Tokyo-to/tokyo-to_evacuation/{z}/{x}/{y}.pbf",
                 ],
               });
               map.addLayer({
                 id: "evacuation",
                 type: "symbol",
                 source: "evacuationes",
-                "source-layer": "evacuation_VT",
+                "source-layer": "tokyo-to_evacuation",
                 layout: {
                   "icon-image": "evacuation",
-                  "icon-size": 0.5,
+                  "icon-size": 0.2,
                 },
                 minzoom: 0,
                 maxzoom: 22,
