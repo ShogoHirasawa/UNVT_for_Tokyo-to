@@ -51,6 +51,7 @@
               map.addSource("evacuationes", {
                 type: "geojson",
                 data: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/data/evacuation_center_Tokyo.geojson",
+                cluster: true,
               });
               map.addLayer({
                 id: "evacuation",
@@ -60,7 +61,7 @@
                 layout: {
                   "icon-image": "evacuation",
                   "icon-size": 0.2,
-                  "icon-allow-overlap":true,
+                  "icon-allow-overlap": true,
                 },
                 minzoom: 0,
                 maxzoom: 22,
