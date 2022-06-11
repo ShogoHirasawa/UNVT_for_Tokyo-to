@@ -55,7 +55,6 @@
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
               });
-
               map.addLayer({
                 id: "clusters",
                 type: "circle",
@@ -92,9 +91,9 @@
           id: "cluster-count",
           type: "symbol",
           source: "evacuationes",
-          // filter: ["has", "point_count"],
+          filter: ["has", "point_count"],
           layout: {
-            "text-field": "{point_count}",
+            "text-field": "{point_count_abbreviated}",
             "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
             "text-size": 12,
           },
