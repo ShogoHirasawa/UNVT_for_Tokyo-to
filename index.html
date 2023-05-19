@@ -48,6 +48,17 @@
             function (error, image) {
               if (error) throw error;
               map.addImage("evacuation", image);
+              map.addControl(new maplibregl.NavigationControl());
+              map.addControl(
+                new maplibregl.GeolocateControl({
+                  positionOptions: {
+                    enableHighAccuracy: false,
+                  },
+                  fitBoundsOptions: { maxZoom: 6 },
+                  trackUserLocation: true,
+                  showUserLocation: true,
+                })
+              );
               map.addSource("evacuationes", {
                 type: "geojson",
                 data: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/data/evacuation_center_Tokyo.geojson",
@@ -83,6 +94,7 @@
                   ],
                 },
               });
+
               map.addLayer({
                 id: "cluster-count",
                 type: "symbol",
@@ -115,9 +127,8 @@
             compact: false,
             customAttribution:
               "Style © <a href='http://openmaptiles.org/'>OpenMapTiles</a> | " +
-              "Data © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> "+
-            "© <a href='https://catalog.data.metro.tokyo.lg.jp/dataset/t000003d0000000093?fbclid=IwAR3iaIsI7e0rmSCiyZoNaw6GaiX1dqd87qXnSDoosOWYNd1kbWoNHdVF1xI'>東京都オープンデータカタログサイト<a>"
-            ,
+              "Data © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> " +
+              "© <a href='https://catalog.data.metro.tokyo.lg.jp/dataset/t000003d0000000093?fbclid=IwAR3iaIsI7e0rmSCiyZoNaw6GaiX1dqd87qXnSDoosOWYNd1kbWoNHdVF1xI'>東京都オープンデータカタログサイト<a>",
           })
         );
       })();
