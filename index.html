@@ -66,34 +66,13 @@
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
               });
-              map.addLayer({
-                id: "clusters",
-                type: "circle",
-                source: "evacuationes",
-                minzoom: 0,
-                maxzoom: 22,
-                filter: ["has", "point_count"],
-                paint: {
-                  "circle-color": [
-                    "step",
-                    ["get", "point_count"],
-                    "#51bbd6",
-                    30,
-                    "#f1f075",
-                    100,
-                    "#f28cb1",
-                  ],
-                  "circle-radius": [
-                    "step",
-                    ["get", "point_count"],
-                    20,
-                    30,
-                    30,
-                    100,
-                    40,
-                  ],
-                },
+
+              map.addSource("flooddata", {
+                type: "geojson",
+                data: "https://shogohirasawa.github.io/2022BunkyokuFlood/2022BunkyokuFlood.geojson",
+                maxzoom: 14,
               });
+
               map.addSource("line", {
                 type: "geojson",
                 data: {
@@ -122,6 +101,36 @@
                   ],
                 },
               });
+
+              map.addLayer({
+                id: "clusters",
+                type: "circle",
+                source: "evacuationes",
+                minzoom: 0,
+                maxzoom: 22,
+                filter: ["has", "point_count"],
+                paint: {
+                  "circle-color": [
+                    "step",
+                    ["get", "point_count"],
+                    "#51bbd6",
+                    30,
+                    "#f1f075",
+                    100,
+                    "#f28cb1",
+                  ],
+                  "circle-radius": [
+                    "step",
+                    ["get", "point_count"],
+                    20,
+                    30,
+                    30,
+                    100,
+                    40,
+                  ],
+                },
+              });
+
               map.addLayer({
                 id: "line-layer",
                 type: "line",
@@ -130,6 +139,29 @@
                 paint: {
                   "line-color": "#ff0000",
                   "line-width": 10,
+                },
+              });
+
+              map.addLayer({
+                id: "flooddata",
+                type: "fill",
+                source: "flooddata",
+                layout: {},
+                paint: {
+                  "fill-color": [
+                    "interpolate",
+                    ["linear"],
+                    ["get", "A31_205"],
+                    1,
+                    "#a8d1ff",
+                    2,
+                    "#3e9df2",
+                    3,
+                    "#0055cc",
+                    4,
+                    "#002b80",
+                  ],
+                  "fill-opacity": 0.7,
                 },
               });
 
