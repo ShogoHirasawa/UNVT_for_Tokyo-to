@@ -143,13 +143,6 @@
                   ],
                 },
               });
-              map.addSource("terrainSource", {
-                type: "raster-dem",
-                tiles: [
-                  "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
-                ],
-                tileSize: 256,
-              });
 
               map.addSource("hillshadeSource", {
                 type: "raster-dem",
@@ -255,13 +248,6 @@
             }
           );
         });
-        map.addControl(
-          new maplibregl.TerrainControl({
-            source: "terrainSource",
-            exaggeration: 1,
-          })
-        );
-        map.addControl(new maplibregl.NavigationControl());
         map.addControl(
           new maplibregl.AttributionControl({
             compact: false,
