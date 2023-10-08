@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>東京都 避難所マップ</title>
-    <script src="https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js"></script>
     <link
-      href="https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.css"
+      href="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css"
       rel="stylesheet"
     />
     <style>
@@ -78,6 +78,10 @@
           style: "./style.json",
           center: [139.75538, 35.71404, 14.86],
           zoom: 15,
+          terrain: {
+            source: "terrainSource",
+            exaggeration: 1,
+          },
         });
 
         map.on("load", function () {
@@ -138,6 +142,21 @@
                     },
                   ],
                 },
+              });
+              map.addSource("terrainSource", {
+                type: "raster-dem",
+                tiles: [
+                  "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
+                ],
+                tileSize: 256,
+              });
+
+              map.addSource("hillshadeSource", {
+                type: "raster-dem",
+                tiles: [
+                  "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
+                ],
+                tileSize: 256,
               });
 
               map.addLayer({
@@ -226,9 +245,22 @@
                   "circle-stroke-color": "#fff",
                 },
               });
+              map.addLayer({
+                id: "hills",
+                type: "hillshade",
+                source: "hillshadeSource",
+                layout: { visibility: "visible" },
+                paint: { "hillshade-shadow-color": "#473B24" },
+              });
             }
           );
         });
+        map.addControl(
+          new maplibregl.TerrainControl({
+            source: "terrainSource",
+            exaggeration: 1,
+          })
+        );
         map.addControl(new maplibregl.NavigationControl());
         map.addControl(
           new maplibregl.AttributionControl({
