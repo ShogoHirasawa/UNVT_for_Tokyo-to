@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="ja">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>東大付近 ハザードマップ</title>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>東京都 避難所マップ</title>
     <script src="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js"></script>
     <link
       href="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css"
@@ -39,9 +40,14 @@
       }
     </style>
   </head>
-
   <body>
-    <div id="legend" class="legend">
+    <div class="legend" id="legend">
+      <button
+        id="toggle-legend-inside"
+        style="position: absolute; top: 0; left: 0"
+      >
+        -
+      </button>
       <h4>浸水深凡例</h4>
       <div>
         <span class="color-box" style="background-color: #a8d1ff"></span>
@@ -60,7 +66,6 @@
         5.0m以上10.0m未満
       </div>
     </div>
-
     <div id="map"></div>
     <script>
       (async () => {
@@ -258,6 +263,34 @@
           })
         );
       })();
+    </script>
+    <script>
+      document
+        .getElementById("toggle-legend")
+        .addEventListener("click", function () {
+          var legend = document.querySelector(".legend");
+          if (legend.style.display === "none") {
+            legend.style.display = "block";
+          } else {
+            legend.style.display = "none";
+          }
+        });
+    </script>
+    <script>
+      document
+        .getElementById("toggle-legend-inside")
+        .addEventListener("click", function () {
+          var legendContents = document.querySelectorAll(
+            ".legend > *:not(#toggle-legend-inside)"
+          );
+          for (var i = 0; i < legendContents.length; i++) {
+            if (legendContents[i].style.display === "none") {
+              legendContents[i].style.display = "block";
+            } else {
+              legendContents[i].style.display = "none";
+            }
+          }
+        });
     </script>
   </body>
 </html>
