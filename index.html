@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>東京都 避難所マップ</title>
+    <title>東大本郷キャンパス付近 洪水ハザードマップ</title>
     <script src="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js"></script>
     <link
       href="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css"
@@ -248,7 +248,11 @@
                 type: "hillshade",
                 source: "hillshadeSource",
                 layout: { visibility: "visible" },
-                paint: { "hillshade-shadow-color": "#473B24" },
+                paint: {
+                  "hillshade-shadow-color": "#000000",
+                  // "hillshade-highlight-color": "#000000",
+                  // "hillshade-exaggeration": 1,
+                },
               });
             }
           );
