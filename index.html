@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta content="IE=edge" http-equiv="X-UA-Compatible" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>東大本郷キャンパス付近 洪水ハザードマップ</title>
+    <title>02東大本郷キャンパス付近 洪水ハザードマップ</title>
     <script src="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js"></script>
     <link
       href="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css"
@@ -70,7 +69,9 @@
     <script>
       (async () => {
         let map;
-        const res = await fetch("./tiles.json");
+        const res = await fetch(
+          "https://shogohirasawa.github.io/UNVT_for_Tokyo-to/tiles.json"
+        );
         const tilejson = await res.json();
         const bounds = tilejson.bounds;
         const center = tilejson.center
@@ -80,7 +81,7 @@
         console.log(center, zoom);
         map = new maplibregl.Map({
           container: "map",
-          style: "./style.json",
+          style: "https://shogohirasawa.github.io/UNVT_for_Tokyo-to/style.json",
           center: [139.75538, 35.71404, 14.86],
           zoom: 15,
           terrain: {
@@ -88,182 +89,128 @@
             exaggeration: 1,
           },
         });
+        map.on("load", () => {
+          map.addControl(new maplibregl.NavigationControl());
+          map.addControl(
+            new maplibregl.GeolocateControl({
+              positionOptions: {
+                enableHighAccuracy: false,
+              },
+              fitBoundsOptions: { maxZoom: 6 },
+              trackUserLocation: true,
+              showUserLocation: true,
+            })
+          );
 
-        map.on("load", function () {
-          map.loadImage(
-            "https://furuhashilab.github.io/2021gsc_ShogoHirasawa/image/house.png",
-            function (error, image) {
-              if (error) throw error;
-              map.addImage("evacuation", image);
-              map.addControl(new maplibregl.NavigationControl());
-              map.addControl(
-                new maplibregl.GeolocateControl({
-                  positionOptions: {
-                    enableHighAccuracy: false,
+          map.addSource("evacuationes", {
+            type: "geojson",
+            data: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/data/evacuation_center_Tokyo.geojson",
+            cluster: false,
+            clusterMaxZoom: 14,
+            clusterRadius: 50,
+          });
+          map.addSource("flooddata", {
+            type: "geojson",
+            data: "https://shogohirasawa.github.io/2022BunkyokuFlood/2022BunkyokuFlood.geojson",
+            maxzoom: 14,
+          });
+          map.addSource("line", {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  properties: {},
+                  geometry: {
+                    coordinates: [
+                      [139.76012980201307, 35.711445374625356],
+                      [139.76027954025278, 35.71145817278227],
+                      [139.76041351657437, 35.711010236062364],
+                      [139.75990519464995, 35.710930247097096],
+                      [139.75969240872837, 35.71177492651452],
+                      [139.75936929022788, 35.713048325543824],
+                      [139.75857617022666, 35.71603002887113],
+                      [139.75770653628533, 35.71596692125739],
+                      [139.75697451787113, 35.71655558775859],
+                      [139.75504479387854, 35.71857338512464],
+                      [139.75423892776848, 35.718005573600834],
+                    ],
+                    type: "LineString",
                   },
-                  fitBoundsOptions: { maxZoom: 6 },
-                  trackUserLocation: true,
-                  showUserLocation: true,
-                })
-              );
-              map.addSource("evacuationes", {
-                type: "geojson",
-                data: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/data/evacuation_center_Tokyo.geojson",
-                cluster: true,
-                clusterMaxZoom: 14,
-                clusterRadius: 50,
-              });
-
-              map.addSource("flooddata", {
-                type: "geojson",
-                data: "https://shogohirasawa.github.io/2022BunkyokuFlood/2022BunkyokuFlood.geojson",
-                maxzoom: 14,
-              });
-
-              map.addSource("line", {
-                type: "geojson",
-                data: {
-                  type: "FeatureCollection",
-                  features: [
-                    {
-                      type: "Feature",
-                      properties: {},
-                      geometry: {
-                        coordinates: [
-                          [139.76012980201307, 35.711445374625356],
-                          [139.76027954025278, 35.71145817278227],
-                          [139.76041351657437, 35.711010236062364],
-                          [139.75990519464995, 35.710930247097096],
-                          [139.75969240872837, 35.71177492651452],
-                          [139.75936929022788, 35.713048325543824],
-                          [139.75857617022666, 35.71603002887113],
-                          [139.75770653628533, 35.71596692125739],
-                          [139.75697451787113, 35.71655558775859],
-                          [139.75504479387854, 35.71857338512464],
-                          [139.75423892776848, 35.718005573600834],
-                        ],
-                        type: "LineString",
-                      },
-                    },
-                  ],
                 },
-              });
+              ],
+            },
+          });
+          map.addSource("hillshadeSource", {
+            type: "raster-dem",
+            tiles: ["./DEMtiles/{z}/{x}/{y}.png"],
+            tileSize: 256,
+          });
+          map.addLayer({
+            id: "line-layer",
+            type: "line",
+            source: "line",
+            layout: {},
+            paint: {
+              "line-color": "#ff0000",
+              "line-width": 10,
+            },
+          });
+          map.addLayer({
+            id: "flooddata",
+            type: "fill",
+            source: "flooddata",
+            layout: {},
+            paint: {
+              "fill-color": [
+                "interpolate",
+                ["linear"],
+                ["get", "A31_205"],
+                1,
+                "#a8d1ff",
+                2,
+                "#3e9df2",
+                3,
+                "#0055cc",
+                4,
+                "#002b80",
+              ],
+              "fill-opacity": 0.7,
+            },
+          });
+          map.addLayer({
+            id: "hills",
+            type: "hillshade",
+            source: "hillshadeSource",
+            layout: { visibility: "visible" },
+            paint: {
+              "hillshade-shadow-color": "#000000",
+            },
+          });
+          map.addLayer({
+            id: "evecuations",
+            type: "circle",
+            source: "evacuationes",
+            paint: {
+              "circle-color": "#ff0000",
+              "circle-radius": 7,
+              "circle-stroke-width": 4,
+              "circle-stroke-color": "#fff",
+            },
+          });
 
-              map.addSource("hillshadeSource", {
-                type: "raster-dem",
-                tiles: ["./DEMtiles/{z}/{x}/{y}.png"],
-                tileSize: 256,
-              });
-
-              map.addLayer({
-                id: "clusters",
-                type: "circle",
-                source: "evacuationes",
-                minzoom: 0,
-                maxzoom: 22,
-                filter: ["has", "point_count"],
-                paint: {
-                  "circle-color": [
-                    "step",
-                    ["get", "point_count"],
-                    "#51bbd6",
-                    30,
-                    "#f1f075",
-                    100,
-                    "#f28cb1",
-                  ],
-                  "circle-radius": [
-                    "step",
-                    ["get", "point_count"],
-                    20,
-                    30,
-                    30,
-                    100,
-                    40,
-                  ],
-                },
-              });
-
-              map.addLayer({
-                id: "line-layer",
-                type: "line",
-                source: "line",
-                layout: {},
-                paint: {
-                  "line-color": "#ff0000",
-                  "line-width": 10,
-                },
-              });
-
-              map.addLayer({
-                id: "flooddata",
-                type: "fill",
-                source: "flooddata",
-                layout: {},
-                paint: {
-                  "fill-color": [
-                    "interpolate",
-                    ["linear"],
-                    ["get", "A31_205"],
-                    1,
-                    "#a8d1ff",
-                    2,
-                    "#3e9df2",
-                    3,
-                    "#0055cc",
-                    4,
-                    "#002b80",
-                  ],
-                  "fill-opacity": 0.7,
-                },
-              });
-
-              map.addLayer({
-                id: "cluster-count",
-                type: "symbol",
-                source: "evacuationes",
-                filter: ["has", "point_count"],
-                layout: {
-                  "text-field": "{point_count}",
-                  "text-font": ["Open Sans Regular"],
-                  "text-size": 12,
-                },
-              });
-              map.addLayer({
-                id: "unclustered-point",
-                type: "circle",
-                source: "evacuationes",
-                filter: ["!", ["has", "point_count"]],
-                paint: {
-                  "circle-color": "#ff0000",
-                  "circle-radius": 7,
-                  "circle-stroke-width": 4,
-                  "circle-stroke-color": "#fff",
-                },
-              });
-              map.addLayer({
-                id: "hills",
-                type: "hillshade",
-                source: "hillshadeSource",
-                layout: { visibility: "visible" },
-                paint: {
-                  "hillshade-shadow-color": "#000000",
-                  // "hillshade-highlight-color": "#000000",
-                  // "hillshade-exaggeration": 1,
-                },
-              });
-            }
+          map.addControl(
+            new maplibregl.AttributionControl({
+              compact: false,
+              customAttribution:
+                "Style © <a href='http://openmaptiles.org/'>OpenMapTiles</a> | " +
+                "Data © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> " +
+                "© <a href='https://catalog.data.metro.tokyo.lg.jp/dataset/t000003d0000000093?fbclid=IwAR3iaIsI7e0rmSCiyZoNaw6GaiX1dqd87qXnSDoosOWYNd1kbWoNHdVF1xI'>東京都オープンデータカタログサイト<a>" +
+                "© <a href='hhttps://maps.gsi.go.jp/development/ichiran.html#dem'>標高タイル（国土地理院）<a>",
+            })
           );
         });
-        map.addControl(
-          new maplibregl.AttributionControl({
-            compact: false,
-            customAttribution:
-              "Style © <a href='http://openmaptiles.org/'>OpenMapTiles</a> | " +
-              "Data © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> " +
-              "© <a href='https://catalog.data.metro.tokyo.lg.jp/dataset/t000003d0000000093?fbclid=IwAR3iaIsI7e0rmSCiyZoNaw6GaiX1dqd87qXnSDoosOWYNd1kbWoNHdVF1xI'>東京都オープンデータカタログサイト<a>",
-          })
-        );
       })();
     </script>
     <script>
