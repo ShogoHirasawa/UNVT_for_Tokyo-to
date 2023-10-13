@@ -151,9 +151,7 @@
 
               map.addSource("hillshadeSource", {
                 type: "raster-dem",
-                tiles: [
-                  "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
-                ],
+                tiles: ["./DEMtiles/{z}/{x}/{y}.png"],
                 tileSize: 256,
               });
 
