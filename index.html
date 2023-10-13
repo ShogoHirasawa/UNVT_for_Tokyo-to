@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-
 <html lang="ja">
   <head>
-    <meta charset="utf-8" />
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>東大本郷キャンパス付近 洪水ハザードマップ</title>
-    <script src="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>東京都 避難所マップ</title>
+    <script src="https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.js"></script>
     <link
-      href="https://unpkg.com/maplibre-gl@3.4.0/dist/maplibre-gl.css"
+      href="https://unpkg.com/maplibre-gl@2.1.9/dist/maplibre-gl.css"
       rel="stylesheet"
     />
     <style>
@@ -20,52 +19,10 @@
         padding: 0;
         margin: 0;
       }
-      .legend {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 1000; /* Ensure it's above the map */
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 14px;
-      }
-
-      .color-box {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
-        vertical-align: middle;
-      }
     </style>
   </head>
+
   <body>
-    <div class="legend" id="legend">
-      <button
-        id="toggle-legend-inside"
-        style="position: absolute; top: 0; left: 0"
-      >
-        -
-      </button>
-      <h4>浸水深凡例</h4>
-      <div>
-        <span class="color-box" style="background-color: #a8d1ff"></span>
-        0m以上0.5m未満
-      </div>
-      <div>
-        <span class="color-box" style="background-color: #3e9df2"></span>
-        0.5m以上3.0m未満
-      </div>
-      <div>
-        <span class="color-box" style="background-color: #0055cc"></span>
-        3.0m以上5.0m未満
-      </div>
-      <div>
-        <span class="color-box" style="background-color: #002b80"></span>
-        5.0m以上10.0m未満
-      </div>
-    </div>
     <div id="map"></div>
     <script>
       (async () => {
@@ -81,12 +38,8 @@
         map = new maplibregl.Map({
           container: "map",
           style: "./style.json",
-          center: [139.75538, 35.71404, 14.86],
-          zoom: 15,
-          terrain: {
-            source: "terrainSource",
-            exaggeration: 1,
-          },
+          center: center,
+          zoom: 10,
         });
 
         map.on("load", function () {
@@ -113,50 +66,6 @@
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
               });
-
-              map.addSource("flooddata", {
-                type: "geojson",
-                data: "https://shogohirasawa.github.io/2022BunkyokuFlood/2022BunkyokuFlood.geojson",
-                maxzoom: 14,
-              });
-
-              map.addSource("line", {
-                type: "geojson",
-                data: {
-                  type: "FeatureCollection",
-                  features: [
-                    {
-                      type: "Feature",
-                      properties: {},
-                      geometry: {
-                        coordinates: [
-                          [139.76012980201307, 35.711445374625356],
-                          [139.76027954025278, 35.71145817278227],
-                          [139.76041351657437, 35.711010236062364],
-                          [139.75990519464995, 35.710930247097096],
-                          [139.75969240872837, 35.71177492651452],
-                          [139.75936929022788, 35.713048325543824],
-                          [139.75857617022666, 35.71603002887113],
-                          [139.75770653628533, 35.71596692125739],
-                          [139.75697451787113, 35.71655558775859],
-                          [139.75504479387854, 35.71857338512464],
-                          [139.75423892776848, 35.718005573600834],
-                        ],
-                        type: "LineString",
-                      },
-                    },
-                  ],
-                },
-              });
-
-              map.addSource("hillshadeSource", {
-                type: "raster-dem",
-                tiles: [
-                  "https://cyberjapandata.gsi.go.jp/xyz/dem_png/{z}/{x}/{y}.png",
-                ],
-                tileSize: 256,
-              });
-
               map.addLayer({
                 id: "clusters",
                 type: "circle",
@@ -187,40 +96,6 @@
               });
 
               map.addLayer({
-                id: "line-layer",
-                type: "line",
-                source: "line",
-                layout: {},
-                paint: {
-                  "line-color": "#ff0000",
-                  "line-width": 10,
-                },
-              });
-
-              map.addLayer({
-                id: "flooddata",
-                type: "fill",
-                source: "flooddata",
-                layout: {},
-                paint: {
-                  "fill-color": [
-                    "interpolate",
-                    ["linear"],
-                    ["get", "A31_205"],
-                    1,
-                    "#a8d1ff",
-                    2,
-                    "#3e9df2",
-                    3,
-                    "#0055cc",
-                    4,
-                    "#002b80",
-                  ],
-                  "fill-opacity": 0.7,
-                },
-              });
-
-              map.addLayer({
                 id: "cluster-count",
                 type: "symbol",
                 source: "evacuationes",
@@ -243,20 +118,10 @@
                   "circle-stroke-color": "#fff",
                 },
               });
-              map.addLayer({
-                id: "hills",
-                type: "hillshade",
-                source: "hillshadeSource",
-                layout: { visibility: "visible" },
-                paint: {
-                  "hillshade-shadow-color": "#000000",
-                  // "hillshade-highlight-color": "#000000",
-                  // "hillshade-exaggeration": 1,
-                },
-              });
             }
           );
         });
+        map.addControl(new maplibregl.NavigationControl());
         map.addControl(
           new maplibregl.AttributionControl({
             compact: false,
@@ -267,34 +132,6 @@
           })
         );
       })();
-    </script>
-    <script>
-      document
-        .getElementById("toggle-legend")
-        .addEventListener("click", function () {
-          var legend = document.querySelector(".legend");
-          if (legend.style.display === "none") {
-            legend.style.display = "block";
-          } else {
-            legend.style.display = "none";
-          }
-        });
-    </script>
-    <script>
-      document
-        .getElementById("toggle-legend-inside")
-        .addEventListener("click", function () {
-          var legendContents = document.querySelectorAll(
-            ".legend > *:not(#toggle-legend-inside)"
-          );
-          for (var i = 0; i < legendContents.length; i++) {
-            if (legendContents[i].style.display === "none") {
-              legendContents[i].style.display = "block";
-            } else {
-              legendContents[i].style.display = "none";
-            }
-          }
-        });
     </script>
   </body>
 </html>
