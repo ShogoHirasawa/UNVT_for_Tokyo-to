@@ -73,6 +73,7 @@
           "https://shogohirasawa.github.io/UNVT_for_Tokyo-to/tiles.json"
         );
         const tilejson = await res.json();
+        let isPointClick = false;
         const bounds = tilejson.bounds;
         const center = tilejson.center
           ? tilejson.center
@@ -91,24 +92,6 @@
         });
         map.on("load", () => {
           map.addControl(new maplibregl.NavigationControl());
-          map.addControl(
-            new maplibregl.GeolocateControl({
-              positionOptions: {
-                enableHighAccuracy: false,
-              },
-              fitBoundsOptions: { maxZoom: 6 },
-              trackUserLocation: true,
-              showUserLocation: true,
-            })
-          );
-
-          map.addSource("evacuationes", {
-            type: "geojson",
-            data: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/data/evacuation_center_Tokyo.geojson",
-            cluster: false,
-            clusterMaxZoom: 14,
-            clusterRadius: 50,
-          });
           map.addSource("flooddata", {
             type: "geojson",
             data: "https://shogohirasawa.github.io/2022BunkyokuFlood/2022BunkyokuFlood.geojson",
@@ -147,6 +130,45 @@
             tiles: ["./DEMtiles/{z}/{x}/{y}.png"],
             tileSize: 256,
           });
+
+          map.addSource("evacuations", {
+            type: "geojson",
+            data: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/data/evacuation_center_Tokyo.geojson",
+          });
+          map.addLayer({
+            id: "evacuations",
+            type: "circle",
+            source: "evacuations",
+            paint: {
+              "circle-color": "#ff0000",
+              "circle-radius": 7,
+              "circle-stroke-width": 4,
+              "circle-stroke-color": "#fff",
+            },
+            filter: ["==", "$type", "Point"],
+          });
+
+          map.on("click", "evacuations", function (e) {
+            let properties = e.features[0].properties;
+            let tableHTML = "<table>";
+            for (let prop in properties) {
+              tableHTML += `<tr><td>${prop}</td><td>${properties[prop]}</td></tr>`;
+            }
+            tableHTML += "</table>";
+
+            new maplibregl.Popup()
+              .setLngLat(e.lngLat) // Set location to the point clicked
+              .setHTML(tableHTML) // Set content to the generated HTML
+              .addTo(map); // Add to map
+          });
+          map.on("mouseenter", "points", function () {
+            map.getCanvas().style.cursor = "pointer"; // Change cursor style to pointer
+          });
+          // When the cursor leaves a feature in the point layer, revert actions for the cursor-related event.
+          map.on("mouseleave", "points", function () {
+            map.getCanvas().style.cursor = ""; // Reset cursor style on mouse leave
+          });
+
           map.addLayer({
             id: "line-layer",
             type: "line",
@@ -188,18 +210,6 @@
               "hillshade-shadow-color": "#000000",
             },
           });
-          map.addLayer({
-            id: "evecuations",
-            type: "circle",
-            source: "evacuationes",
-            paint: {
-              "circle-color": "#ff0000",
-              "circle-radius": 7,
-              "circle-stroke-width": 4,
-              "circle-stroke-color": "#fff",
-            },
-          });
-
           map.addControl(
             new maplibregl.AttributionControl({
               compact: false,
@@ -212,18 +222,6 @@
           );
         });
       })();
-    </script>
-    <script>
-      document
-        .getElementById("toggle-legend")
-        .addEventListener("click", function () {
-          var legend = document.querySelector(".legend");
-          if (legend.style.display === "none") {
-            legend.style.display = "block";
-          } else {
-            legend.style.display = "none";
-          }
-        });
     </script>
     <script>
       document
@@ -241,5 +239,21 @@
           }
         });
     </script>
+    <div
+      id="info"
+      style="
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        max-width: 300px;
+        background-color: white;
+        padding: 10px;
+        border-radius: 5px;
+        z-index: 1000;
+        display: none;
+      "
+    >
+      <table id="info-table"></table>
+    </div>
   </body>
 </html>
