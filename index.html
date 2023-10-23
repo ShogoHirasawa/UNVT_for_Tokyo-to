@@ -37,16 +37,19 @@
         margin-right: 5px;
         vertical-align: middle;
       }
+
+      .circle {
+        display: inline-block;
+        width: 10px; /* circle-radius (20) * 2 + circle-stroke-width (4) * 2 */
+        height: 10px; /* same as width for a circle */
+        background-color: #000000;
+        border: 4px solid #fff;
+        border-radius: 50%; /* makes the shape a circle */
+        vertical-align: middle; /* helps with alignment in legend */
+      }
     </style>
   </head>
   <body>
-    <script>
-      window.onload = function () {
-        alert(
-          "【💡💡最初に必ず読みましょう💡💡】\n\nこれは洪水被害時に避難ルートを検討するためのハザードマップです。\n洪水等、高潮及び津波のリスクがある区域等においては、自宅・施設等の少しでも浸水しにくい高い場所に緊急的に移動したり、近隣の相対的に高く堅牢な建物等に緊急的に移動してください。\n\n*もう一度この文章を読みたいときはページをリロードしてください。*"
-        );
-      };
-    </script>
     <div class="legend" id="legend">
       <button
         id="toggle-legend-inside"
@@ -71,6 +74,15 @@
         <span class="color-box" style="background-color: #002b80"></span>
         5.0m以上10.0m未満
       </div>
+      <h4>避難所凡例</h4>
+      <div>
+        <span class="circle" style="background-color: #ff0000"></span>
+        避難所
+      </div>
+      <div>
+        <span class="circle" style="background-color: #000000"></span>
+        現在位置
+      </div>
     </div>
     <div id="map"></div>
     <script>
@@ -91,7 +103,7 @@
           container: "map",
           style: "https://shogohirasawa.github.io/UNVT_for_Tokyo-to/style.json",
           center: [139.75538, 35.71404, 14.86],
-          zoom: 15,
+          zoom: 12,
           terrain: {
             source: "terrainSource",
             exaggeration: 1,
