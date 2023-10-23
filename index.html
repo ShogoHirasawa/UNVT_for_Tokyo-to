@@ -104,34 +104,28 @@
             data: "https://shogohirasawa.github.io/2022BunkyokuFlood/2022BunkyokuFlood.geojson",
             maxzoom: 14,
           });
-          map.addSource("line", {
+          map.addSource("StartPoint", {
             type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  properties: {},
-                  geometry: {
-                    coordinates: [
-                      [139.76012980201307, 35.711445374625356],
-                      [139.76027954025278, 35.71145817278227],
-                      [139.76041351657437, 35.711010236062364],
-                      [139.75990519464995, 35.710930247097096],
-                      [139.75969240872837, 35.71177492651452],
-                      [139.75936929022788, 35.713048325543824],
-                      [139.75857617022666, 35.71603002887113],
-                      [139.75770653628533, 35.71596692125739],
-                      [139.75697451787113, 35.71655558775859],
-                      [139.75504479387854, 35.71857338512464],
-                      [139.75423892776848, 35.718005573600834],
-                    ],
-                    type: "LineString",
-                  },
-                },
-              ],
-            },
+            data: "./data/Startpoint.geojson",
           });
+
+          map.addSource("root001", {
+            type: "geojson",
+            data: "./data/001.geojson",
+          });
+          map.addSource("root002", {
+            type: "geojson",
+            data: "./data/002.geojson",
+          });
+          map.addSource("root003", {
+            type: "geojson",
+            data: "./data/003.geojson",
+          });
+          map.addSource("root004", {
+            type: "geojson",
+            data: "./data/004.geojson",
+          });
+
           map.addSource("hillshadeSource", {
             type: "raster-dem",
             tiles: ["./DEMtiles/{z}/{x}/{y}.png"],
@@ -140,7 +134,7 @@
 
           map.addSource("evacuations", {
             type: "geojson",
-            data: "https://furuhashilab.github.io/UNVT_for_Tokyo-to/data/evacuation_center_Tokyo.geojson",
+            data: "./data/near_UTokyo_evacuation.geojson",
           });
           map.addLayer({
             id: "evacuations",
@@ -175,14 +169,56 @@
           map.on("mouseleave", "points", function () {
             map.getCanvas().style.cursor = ""; // Reset cursor style on mouse leave
           });
+          map.addLayer({
+            id: "startpoint",
+            type: "circle",
+            source: "StartPoint",
+            paint: {
+              "circle-color": "#000000",
+              "circle-radius": 20,
+              "circle-stroke-width": 4,
+              "circle-stroke-color": "#fff",
+            },
+            filter: ["==", "$type", "Point"],
+          });
 
           map.addLayer({
-            id: "line-layer",
+            id: "line001",
             type: "line",
-            source: "line",
+            source: "root001",
             layout: {},
             paint: {
               "line-color": "#ff0000",
+              "line-width": 10,
+            },
+          });
+          map.addLayer({
+            id: "line002",
+            type: "line",
+            source: "root002",
+            layout: {},
+            paint: {
+              "line-color": "#3dbbff",
+              "line-width": 10,
+            },
+          });
+          map.addLayer({
+            id: "line003",
+            type: "line",
+            source: "root003",
+            layout: {},
+            paint: {
+              "line-color": "#9e26bf",
+              "line-width": 10,
+            },
+          });
+          map.addLayer({
+            id: "line004",
+            type: "line",
+            source: "root004",
+            layout: {},
+            paint: {
+              "line-color": "#26bf2b",
               "line-width": 10,
             },
           });
