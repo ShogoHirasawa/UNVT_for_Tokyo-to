@@ -40,6 +40,13 @@
     </style>
   </head>
   <body>
+    <script>
+      window.onload = function () {
+        alert(
+          "【💡💡最初に必ず読みましょう💡💡】\n\nこれは洪水被害時に避難ルートを検討するためのハザードマップです。\n洪水等、高潮及び津波のリスクがある区域等においては、自宅・施設等の少しでも浸水しにくい高い場所に緊急的に移動したり、近隣の相対的に高く堅牢な建物等に緊急的に移動してください。\n\n*もう一度この文章を読みたいときはページをリロードしてください。*"
+        );
+      };
+    </script>
     <div class="legend" id="legend">
       <button
         id="toggle-legend-inside"
@@ -210,6 +217,7 @@
               "hillshade-shadow-color": "#000000",
             },
           });
+
           map.addControl(
             new maplibregl.AttributionControl({
               compact: false,
