@@ -47,6 +47,10 @@
         border-radius: 50%; /* makes the shape a circle */
         vertical-align: middle; /* helps with alignment in legend */
       }
+      .worningtext {
+        background-color: red;
+        color: yellow;
+      }
     </style>
   </head>
   <body>
@@ -57,6 +61,15 @@
       >
         -
       </button>
+      <h2>🌊洪水ハザードマップ</h2>
+      <h3 class="worningtext">
+        ・浸水時はできるだけ高い場所に避難しましょう<br />・傾斜のある場所は避けましょう
+      </h3>
+      <h4>標高</h4>
+      <div>
+        <span class="color-box" style="background-color: #9c0000"></span>
+        グラデーションを用いて標高を表しています
+      </div>
       <h4>浸水深凡例</h4>
       <div>
         <span class="color-box" style="background-color: #a8d1ff"></span>
@@ -77,16 +90,11 @@
       <h4>避難所凡例</h4>
       <div>
         <span class="circle" style="background-color: #ff0000"></span>
-        避難所
+        避難所（クリックすると詳細が表示されます）
       </div>
       <div>
         <span class="circle" style="background-color: #000000"></span>
         現在位置
-      </div>
-      <h4>標高</h4>
-      <div>
-        <span class="color-box" style="background-color: #9c0000"></span>
-        グラデーションを用いて標高を表しています
       </div>
     </div>
     <div id="map"></div>
@@ -152,6 +160,27 @@
           map.addSource("evacuations", {
             type: "geojson",
             data: "./data/near_UTokyo_evacuation.geojson",
+          });
+
+          map.on("click", "evacuations", function (e) {
+            let properties = e.features[0].properties;
+            let tableHTML = "<table>";
+            for (let prop in properties) {
+              tableHTML += `<tr><td>${prop}</td><td>${properties[prop]}</td></tr>`;
+            }
+            tableHTML += "</table>";
+
+            new maplibregl.Popup()
+              .setLngLat(e.lngLat) // Set location to the point clicked
+              .setHTML(tableHTML) // Set content to the generated HTML
+              .addTo(map); // Add to map
+          });
+          map.on("mouseenter", "points", function () {
+            map.getCanvas().style.cursor = "pointer"; // Change cursor style to pointer
+          });
+          // When the cursor leaves a feature in the point layer, revert actions for the cursor-related event.
+          map.on("mouseleave", "points", function () {
+            map.getCanvas().style.cursor = ""; // Reset cursor style on mouse leave
           });
 
           map.addLayer({
@@ -225,6 +254,18 @@
               "line-width": 10,
             },
           });
+          map.addLayer({
+            id: "startpoint",
+            type: "circle",
+            source: "StartPoint",
+            paint: {
+              "circle-color": "#000000",
+              "circle-radius": 9,
+              "circle-stroke-width": 4,
+              "circle-stroke-color": "#fff",
+            },
+            filter: ["==", "$type", "Point"],
+          });
 
           map.addLayer({
             id: "evacuations",
@@ -233,39 +274,6 @@
             paint: {
               "circle-color": "#ff0000",
               "circle-radius": 7,
-              "circle-stroke-width": 4,
-              "circle-stroke-color": "#fff",
-            },
-            filter: ["==", "$type", "Point"],
-          });
-
-          map.on("click", "evacuations", function (e) {
-            let properties = e.features[0].properties;
-            let tableHTML = "<table>";
-            for (let prop in properties) {
-              tableHTML += `<tr><td>${prop}</td><td>${properties[prop]}</td></tr>`;
-            }
-            tableHTML += "</table>";
-
-            new maplibregl.Popup()
-              .setLngLat(e.lngLat) // Set location to the point clicked
-              .setHTML(tableHTML) // Set content to the generated HTML
-              .addTo(map); // Add to map
-          });
-          map.on("mouseenter", "points", function () {
-            map.getCanvas().style.cursor = "pointer"; // Change cursor style to pointer
-          });
-          // When the cursor leaves a feature in the point layer, revert actions for the cursor-related event.
-          map.on("mouseleave", "points", function () {
-            map.getCanvas().style.cursor = ""; // Reset cursor style on mouse leave
-          });
-          map.addLayer({
-            id: "startpoint",
-            type: "circle",
-            source: "StartPoint",
-            paint: {
-              "circle-color": "#000000",
-              "circle-radius": 9,
               "circle-stroke-width": 4,
               "circle-stroke-color": "#fff",
             },
