@@ -10,7 +10,7 @@
   "minzoom": 0,
   "maxzoom": 14,
   "bounds": [134.045154, 18.625054, 155.605818, 37.15988],
-  "center": [139.5157285, 35.6518596, 11],
+  "center": [139.75538, 35.71404],
   "vector_layers": [
     {
       "id": "place",
@@ -178,7 +178,5 @@
       "maxzoom": 14
     }
   ],
-  "tiles": [
-    "https://furuhashilab.github.io/UNVT_for_Tokyo-to/zxy/{z}/{x}/{y}.pbf"
-  ]
+  "tiles": ["./zxy/{z}/{x}/{y}.pbf"]
 }
