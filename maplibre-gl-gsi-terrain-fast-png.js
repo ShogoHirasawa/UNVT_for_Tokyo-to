@@ -1,7 +1,6 @@
 // maplibre-gl-gsi-terrain
-// 【参考】https://qiita.com/Kanahiro/items/1e9c1a4ad6be76b27f0f
+// 【参考】https://github.com/shi-works/gsi-terrain-dem-on-maplibre-gl-js-demo/blob/main/maplibre-gl-gsi-terrain-fast-png.js by shi-works
 
-// 'fast-png'パッケージから'encode'関数をインポート。これは画像データをPNG形式にエンコードするために使用。
 import { encode as fastPngEncode } from "./+esm.js";
 
 // RGB値を元に地形の高さを計算し、その高さに対応する新たなRGB値を返す関数
