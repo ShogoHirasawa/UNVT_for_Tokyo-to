@@ -64,13 +64,8 @@
       </button>
       <h2>🌊洪水ハザードマップ</h2>
       <h3 class="worningtext">
-        ・浸水時はできるだけ高い場所に避難しましょう<br />・傾斜のある場所は避けましょう
+        ・低い場所は避けて高い場所に避難しましょう<br />・傾斜のある場所には近寄らないでください
       </h3>
-      <h4>標高</h4>
-      <div>
-        <span class="color-box" style="background-color: #9c0000"></span>
-        グラデーションを用いて標高を表しています
-      </div>
       <h4>浸水深凡例</h4>
       <div>
         <span class="color-box" style="background-color: #a8d1ff"></span>
@@ -110,11 +105,12 @@
           container: "map",
           style: "./style.json",
           center: [139.75538, 35.71404],
-          zoom: 13.5,
-          pitch: 50,
+          zoom: 12.5,
+          pitch: 60,
+          bearing: 40.96,
           terrain: {
             source: "terrainSource",
-            exaggeration: 3,
+            // exaggeration: 3,
           },
         });
         map.on("load", () => {
@@ -148,12 +144,12 @@
 
           map.addSource("hillshadeSource", {
             type: "raster-dem",
-            tiles: ["gsidem://./dem002/{z}/{x}/{y}.png"],
+            tiles: ["gsidem://./DEMtiles/{z}/{x}/{y}.png"],
             tileSize: 256,
           });
           map.addSource("terrainSource", {
             type: "raster-dem",
-            tiles: ["gsidem://./dem002/{z}/{x}/{y}.png"],
+            tiles: ["gsidem://./DEMtiles/{z}/{x}/{y}.png"],
             tileSize: 256,
           });
 
@@ -278,12 +274,13 @@
             layout: { visibility: "visible" },
             paint: {
               "hillshade-shadow-color": "#000000",
+              "hillshade-highlight-color": "#000000",
             },
           });
           map.addControl(
             new maplibregl.TerrainControl({
               source: "terrainSource",
-              exaggeration: 1, // 標高を強調する倍率
+              // exaggeration: 1, // 標高を強調する倍率
             })
           );
           map.setTerrain({ source: "terrainSource", exaggeration: 5 });

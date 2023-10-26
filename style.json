@@ -427,6 +427,7 @@
       "source": "openmaptiles",
       "source-layer": "building",
       "layout": { "visibility": "visible" },
+      "minzoom": 18,
       "paint": {
         "fill-color": "hsla(0,0%,70%,1)",
         "fill-opacity": {

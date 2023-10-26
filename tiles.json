@@ -178,5 +178,7 @@
       "maxzoom": 14
     }
   ],
-  "tiles": ["./zxy/{z}/{x}/{y}.pbf"]
+  "tiles": [
+    "https://shogohirasawa.github.io/UNVT_for_Tokyo-to/zxy/{z}/{x}/{y}.pbf"
+  ]
 }
